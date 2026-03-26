@@ -14,11 +14,12 @@ const baseLoginSchema = {
 export const SignupSchema = z
   .object({
     name: requiredField("Please enter name")
+      .min(3, "Name cannot be less than 3 chars")
       .regex(
         /^[a-zA-Z0-9_-]+$/,
         "Only letters, numbers, -, _ are allowed with no spaces",
       )
-      .max(7, "Name can be maxium 7 characters"),
+      .max(7, "Name can't exceed 7 characters"),
     email: z.email("Invalid email address"),
     password: requiredField("Please enter password").min(
       8,
