@@ -2,14 +2,14 @@ import React from "react";
 import { Spinner } from "./ui/spinner";
 import { Button } from "./ui/button";
 
-interface LoadingButtonProps {
+interface LoadingButtonProps extends React.ComponentProps<typeof Button> {
   isSubmitting: boolean;
   title: string;
 }
 
-function LoadingButton({ isSubmitting, title }: LoadingButtonProps) {
+function LoadingButton({ isSubmitting, title, ...props }: LoadingButtonProps) {
   return (
-    <Button disabled={isSubmitting} type="submit">
+    <Button {...props} disabled={isSubmitting} type="submit">
       {isSubmitting ? <Spinner /> : title}
     </Button>
   );
