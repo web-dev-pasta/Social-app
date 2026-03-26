@@ -1,12 +1,7 @@
 "use client";
 import Link from "next/link";
-import { Button } from "../../components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Bell, Bookmark, Home, Mail } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 interface MenuBarProps {
   className?: string;
 }
