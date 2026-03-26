@@ -51,6 +51,12 @@ export function SignupForm({
           message: result.message,
         });
       }
+      if (result.errorType === "username") {
+        setFocus("name");
+        setError("name", {
+          message: result.message,
+        });
+      }
       return toast.error(result.message);
     }
     toast.success("User created successfully");
@@ -60,7 +66,10 @@ export function SignupForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="h-155 p-6 md:p-8 flex items-center" onSubmit={handleSubmit(onSubmit)}>
+          <form
+            className="flex h-155 items-center p-6 md:p-8"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-2xl font-bold">Create your account</h1>
