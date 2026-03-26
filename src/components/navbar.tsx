@@ -1,6 +1,7 @@
 import Link from "next/link";
 import UserButton from "./user-button";
 import SearchField from "./search-field";
+import { ModeToggle } from "./mode-toggle";
 
 function Navbar() {
   return (
@@ -12,7 +13,10 @@ function Navbar() {
           </Link>
           <SearchField />
         </div>
-        <UserButton className="sm:ms-auto" />
+        <div className="flex items-center gap-4">
+          <ModeToggle />
+          <UserButton className="sm:ms-auto" />
+        </div>
       </div>
     </header>
   );
