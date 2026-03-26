@@ -67,7 +67,9 @@ export function LoginForm({
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="form-email">Email</FieldLabel>
+                    <FieldLabel htmlFor="form-email">
+                      Email or username
+                    </FieldLabel>
                     <Input
                       {...field}
                       id="form-email"
