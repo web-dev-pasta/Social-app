@@ -51,7 +51,10 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8" onSubmit={handleSubmit(onSubmit)}>
+          <form
+            className="flex h-127.5 items-center p-6 md:p-8"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
@@ -117,7 +120,7 @@ export function LoginForm({
             <Image
               src={loginImage}
               alt="signup-image"
-              className="absolute h-full scale-200 object-contain dark:brightness-[0.2] dark:grayscale"
+              className="absolute h-full object-cover dark:brightness-[0.2] dark:grayscale"
               loading="eager"
             />
           </div>
