@@ -22,6 +22,7 @@ import { redirect } from "next/navigation";
 import { loginAction } from "@/app/(auth)/login/actions";
 import LoadingButton from "./loading-button";
 import SocialProviders from "./social-providers";
+import { PasswordInput } from "./password-input";
 
 export function LoginForm({
   className,
@@ -83,7 +84,7 @@ export function LoginForm({
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="form-password">Password</FieldLabel>
-                    <Input
+                    <PasswordInput
                       {...field}
                       id="form-password"
                       aria-invalid={fieldState.invalid}
