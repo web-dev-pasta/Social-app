@@ -35,7 +35,7 @@ export function LoginForm({
   } = useForm<LoginValues>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: "",
+      usernameOrEmail: "",
       password: "",
     },
   });
@@ -63,7 +63,7 @@ export function LoginForm({
                 </p>
               </div>
               <Controller
-                name="email"
+                name="usernameOrEmail"
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
@@ -72,7 +72,7 @@ export function LoginForm({
                       {...field}
                       id="form-email"
                       aria-invalid={fieldState.invalid}
-                      placeholder="Enter your email"
+                      placeholder="Enter email or username"
                       autoComplete="off"
                     />
                     {fieldState.invalid && (

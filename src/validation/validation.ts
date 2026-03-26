@@ -7,12 +7,18 @@ const requiredField = (message?: string) => {
     .min(1, message ?? "Required");
 };
 
+const baseLoginSchema = {
+  password: requiredField("Please enter password"),
+};
+
 export const SignupSchema = z
   .object({
-    name: requiredField("Please enter name").regex(
-      /^[a-zA-Z0-9_-]+$/,
-      "Only letters, numbers, -, _ are allowed with no spaces",
-    ),
+    name: requiredField("Please enter name")
+      .regex(
+        /^[a-zA-Z0-9_-]+$/,
+        "Only letters, numbers, -, _ are allowed with no spaces",
+      )
+      .max(7, "Name can be maxium 7 characters"),
     email: z.email("Invalid email address"),
     password: requiredField("Please enter password").min(
       8,
@@ -26,8 +32,8 @@ export const SignupSchema = z
 export type SignupValues = z.infer<typeof SignupSchema>;
 
 export const LoginSchema = z.object({
-  email: z.email(),
-  password: requiredField("Please enter password"),
+  ...baseLoginSchema,
+  usernameOrEmail: requiredField("Please enter email or username"),
 });
 
 export type LoginValues = z.infer<typeof LoginSchema>;
