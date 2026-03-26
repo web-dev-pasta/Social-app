@@ -16,10 +16,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSession } from "@/app/(main)/session-provider";
 import UserAvatar from "./user-avatar";
-import { LogOut, UserIcon } from "lucide-react";
+import { LogOut, Monitor, Moon, Sun, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
+import { useTheme } from "next-themes";
 
 interface UserButtonProps {
   className?: string;
@@ -30,6 +31,8 @@ const handleLogout = async () => {
 };
 function UserButton({ className }: UserButtonProps) {
   const { user } = useSession();
+  const { setTheme, theme } = useTheme();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -51,6 +54,40 @@ function UserButton({ className }: UserButtonProps) {
               <UserIcon />
             </Link>
           </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger className="flex items-center gap-2">
+              <Monitor />
+              <span>Theme</span>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem
+                  onClick={() => setTheme("system")}
+                  className={`${theme === "system" ? `bg-accent` : null}`}
+                >
+                  <Monitor />
+                  <span>System default</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className={`${theme === "light" ? `bg-accent` : null}`}
+                  onClick={() => setTheme("light")}
+                >
+                  <Sun />
+                  <span>Light</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className={`${theme === "dark" ? `bg-accent` : null}`}
+                  onClick={() => setTheme("dark")}
+                >
+                  <Moon />
+                  <span>Dark</span>
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
