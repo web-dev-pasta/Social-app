@@ -2,6 +2,7 @@
 
 import { auth } from "@/lib/auth";
 import { LoginSchema, LoginValues } from "@/validation/validation";
+import z from "zod";
 
 export const loginAction = async (credentials: LoginValues) => {
   try {
@@ -12,17 +13,41 @@ export const loginAction = async (credentials: LoginValues) => {
         error: true,
       };
     }
-    const data = {
-      email: result.data.email,
-      password: result.data.password,
-    };
-    const { email, password } = data;
-    const user = await auth.api.signInEmail({
-      body: { email, password, rememberMe: true },
-    });
+    const username = z
+      .string()
+      .regex(/^[a-zA-Z0-9_-]+$/)
+      .safeParse(result.data.usernameOrEmail);
+    const email = z.email().safeParse(result.data.usernameOrEmail);
+    const password = result.data.password;
+
+    if (username.success && !email.success) {
+      await auth.api.signInUsername({
+        body: {
+          username: username.data,
+          password,
+        },
+      });
+    }
+    if (email.success && !username.success) {
+      await auth.api.signInEmail({
+        body: {
+          email: email.data,
+          password,
+        },
+      });
+    }
+    if (
+      (!email.success && !username.success) ||
+      (email.success && username.success)
+    ) {
+      return {
+        message: "Something went wrong",
+        error: true,
+      };
+    }
+
     return {
       message: "Logged in successfully",
-      user,
       error: false,
     };
   } catch (err) {

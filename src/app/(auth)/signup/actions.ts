@@ -3,6 +3,8 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { SignupSchema, SignupValues } from "@/validation/validation";
+
+type ErrorType = "email" | "username";
 export const signupAction = async (credentials: SignupValues) => {
   try {
     const result = SignupSchema.safeParse(credentials);
@@ -19,20 +21,32 @@ export const signupAction = async (credentials: SignupValues) => {
     };
     const { name, email, password } = data;
 
-    const existingUser = await prisma.user.findUnique({
+    const existingName = await prisma.user.findFirst({
+      where: {
+        name,
+      },
+    });
+    if (existingName) {
+      return {
+        message: "This username is currently used",
+        error: true,
+        errorType: "username" as ErrorType,
+      };
+    }
+    const existingEmail = await prisma.user.findUnique({
       where: {
         email,
       },
     });
-    if (existingUser) {
+    if (existingEmail) {
       return {
-        message: "User already exist",
+        message: "This email is currently used",
         error: true,
-        errorType: "email" as "email",
+        errorType: "email" as ErrorType,
       };
     }
     const user = await auth.api.signUpEmail({
-      body: { name, email, password, displayName: name },
+      body: { name, email, password, displayUsername: name },
     });
     return {
       message: "User created successfully",
