@@ -25,7 +25,13 @@ export const auth = betterAuth({
       },
     },
   },
-  plugins: [username(), nextCookies()],
+  plugins: [
+    username({
+      minUsernameLength: 3,
+      maxUsernameLength: 7,
+    }),
+    nextCookies(),
+  ],
 });
 
 export type Session = typeof auth.$Infer.Session;
