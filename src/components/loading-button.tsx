@@ -9,7 +9,7 @@ interface LoadingButtonProps extends React.ComponentProps<typeof Button> {
 
 function LoadingButton({ isSubmitting, title, ...props }: LoadingButtonProps) {
   return (
-    <Button {...props} disabled={isSubmitting} type="submit">
+    <Button {...props} disabled={props.disabled ?? isSubmitting} type="submit">
       {isSubmitting ? <Spinner /> : title}
     </Button>
   );
