@@ -14,7 +14,8 @@ import LoadingButton from "@/components/loading-button";
 import { toast } from "sonner";
 
 function PostEditor() {
-  const [input, setInput] = useState("");
+  const [toSubmitInput, setToSubmitInput] = useState("");
+  const [textInput, setTextInput] = useState("");
   const [isSubmitting, startTransition] = useTransition();
 
   const { user } = useSession();
@@ -31,24 +32,28 @@ function PostEditor() {
       const text = editor.getText({
         blockSeparator: "\n",
       });
-      setInput(text);
+      setTextInput(text);
+      const htmlText = editor.getHTML();
+      setToSubmitInput(htmlText);
     },
   });
+
   const onSubmit = () => {
     startTransition(async () => {
-      const result = await submitPost(input);
+      const result = await submitPost(toSubmitInput, textInput);
       if (result?.error) {
         toast.error(result.message);
       }
       if (result?.success) {
         toast.success(result.message);
       }
+
       editor?.commands.clearContent();
     });
   };
 
   return (
-    <div className="bg-card flex max-w-2xl flex-col gap-5 rounded-2xl p-5 shadow-sm">
+    <div className="bg-card flex flex-col gap-5 rounded-2xl p-5 shadow-sm">
       <div className="flex gap-5">
         <UserAvatar image={user.image} className="max-sm:hidden" />
         <EditorContent
@@ -58,7 +63,7 @@ function PostEditor() {
       </div>
       <div className="flex justify-end">
         <LoadingButton
-          disabled={!input.trim() || isSubmitting}
+          disabled={!textInput.trim() || isSubmitting}
           onClick={onSubmit}
           title="Post"
           isSubmitting={isSubmitting}

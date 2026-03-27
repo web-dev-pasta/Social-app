@@ -4,12 +4,13 @@ import { getServerSession } from "@/lib/get-session";
 import { prisma } from "@/lib/prisma";
 import { createPostSchema } from "@/validation/validation";
 
-export async function submitPost(input: string) {
+export async function submitPost(parsedInput: string, textInput: string) {
   const session = await getServerSession();
   if (!session || !session?.user) {
     throw new Error("Unauthorized");
   }
-  if (!input) {
+
+  if (!textInput || !textInput.trim()) {
     return {
       error: true,
       message: "Invalid inputs!",
@@ -17,7 +18,7 @@ export async function submitPost(input: string) {
   }
   const user = session.user;
   const { content } = createPostSchema.parse({
-    content: input,
+    content: parsedInput,
   });
   await prisma.post.create({
     data: {
