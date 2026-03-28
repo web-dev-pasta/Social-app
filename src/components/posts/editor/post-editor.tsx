@@ -23,7 +23,9 @@ function PostEditor() {
     extensions: [
       StarterKit,
       Placeholder.configure({
-        placeholder: "Write what you think about...",
+        placeholder: user.displayUsername
+          ? `What's on your mind, ${user.displayUsername[0].toUpperCase() + user.displayUsername.slice(1)}?`
+          : "Write what you think about...",
       }),
     ],
     textDirection: "auto",

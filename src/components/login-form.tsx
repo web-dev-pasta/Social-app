@@ -19,10 +19,10 @@ import { toast } from "sonner";
 import { LoginSchema, LoginValues } from "@/validation/validation";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { loginAction } from "@/app/(auth)/login/actions";
 import LoadingButton from "./loading-button";
 import SocialProviders from "./social-providers";
 import { PasswordInput } from "./password-input";
+import { loginAction } from "@/app/(auth)/login/actions";
 
 export function LoginForm({
   className,
