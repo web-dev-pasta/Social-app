@@ -14,6 +14,7 @@ function UserAvatar({ image, size, className }: UserAvatarProps) {
       alt="avatar"
       width={size ?? 48}
       height={size ?? 48}
+      sizes="20vh"
       className={cn(
         "bg-secondary aspect-square h-fit flex-none rounded-full object-cover select-none",
         className,

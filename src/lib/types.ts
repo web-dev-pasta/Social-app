@@ -3,6 +3,7 @@ import { Prisma } from "@/generated/prisma/client";
 const getPostDataInclude = {
   user: {
     select: {
+      username: true,
       displayUsername: true,
       image: true,
     },

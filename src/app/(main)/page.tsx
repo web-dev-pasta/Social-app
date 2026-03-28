@@ -10,6 +10,7 @@ async function App() {
     include: {
       user: {
         select: {
+          username: true,
           displayUsername: true,
           image: true,
         },
