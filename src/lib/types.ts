@@ -1,4 +1,4 @@
-import { Prisma } from "@/generated/prisma/client";
+import { Post, Prisma } from "@/generated/prisma/client";
 
 export const userDataSelect = {
   id: true,
@@ -7,7 +7,7 @@ export const userDataSelect = {
   image: true,
 } satisfies Prisma.UserSelect;
 
-const getPostDataInclude = {
+export const getPostDataInclude = {
   user: {
     select: userDataSelect,
   },
@@ -16,3 +16,8 @@ const getPostDataInclude = {
 export type PostData = Prisma.PostGetPayload<{
   include: typeof getPostDataInclude;
 }>;
+
+export interface PostsPage {
+  posts: PostData[];
+  nextCursor: string | null;
+}

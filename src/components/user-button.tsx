@@ -21,6 +21,7 @@ import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
 import { useTheme } from "next-themes";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface UserButtonProps {
   className?: string;
@@ -32,6 +33,7 @@ const handleLogout = async () => {
 function UserButton({ className }: UserButtonProps) {
   const { user } = useSession();
   const { setTheme, theme } = useTheme();
+  const queryClient = useQueryClient();
 
   return (
     <DropdownMenu>
@@ -92,7 +94,10 @@ function UserButton({ className }: UserButtonProps) {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem
-            onClick={handleLogout}
+            onClick={() => {
+              queryClient.clear();
+              handleLogout();
+            }}
             className="flex items-center gap-2"
           >
             <span>Log out</span>
