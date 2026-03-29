@@ -9,11 +9,8 @@ import PostsLoadingSkeleton from "@/components/posts/loading-skeleton";
 import Link from "next/link";
 import { usePosts } from "@/hooks/use-posts";
 import InfiniteScrollContainer from "@/components/posts/infinite-scroll-container";
+import { toast } from "sonner";
 function ForYouFeed() {
-  const { ref, inView } = useInView({
-    rootMargin: "200px",
-  });
-
   const {
     data,
     error,
@@ -23,18 +20,13 @@ function ForYouFeed() {
     hasNextPage,
     isFetchingNextPage,
   } = usePosts();
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, fetchNextPage]);
 
   if (isPending) {
     return <PostsLoadingSkeleton />;
   }
   if (data?.length === 0) {
     return (
-      <p className="text-muted-foreground text-center">
+      <p className="text-muted-foreground text-center text-pretty">
         No friends have added any posts yet
       </p>
     );

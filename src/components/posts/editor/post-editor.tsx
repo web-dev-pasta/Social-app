@@ -16,7 +16,7 @@ import { toast } from "sonner";
 function PostEditor() {
   const [toSubmitInput, setToSubmitInput] = useState("");
   const [textInput, setTextInput] = useState("");
-  const [isSubmitting, startTransition] = useTransition();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { user } = useSession();
   const editor = useEditor({
@@ -40,8 +40,9 @@ function PostEditor() {
     },
   });
 
-  const onSubmit = () => {
-    startTransition(async () => {
+  const onSubmit = async () => {
+    try {
+      setIsSubmitting(true);
       const result = await submitPost(toSubmitInput, textInput);
       if (result?.error) {
         toast.error(result.message);
@@ -49,9 +50,13 @@ function PostEditor() {
       if (result?.success) {
         toast.success(result.message);
       }
-
       editor?.commands.clearContent();
-    });
+    } catch (err) {
+      const error = err as Error;
+      toast.error(error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
