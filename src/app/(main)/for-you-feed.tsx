@@ -1,33 +1,72 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { Loader2 } from "lucide-react";
-import { type PostsPage } from "@/lib/types";
 import Post from "@/components/posts/post";
+import { Button } from "@/components/ui/button";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
+import PostsLoadingSkeleton from "@/components/posts/loading-skeleton";
+import Link from "next/link";
+import { usePosts } from "@/hooks/use-posts";
+import InfiniteScrollContainer from "@/components/posts/infinite-scroll-container";
 function ForYouFeed() {
-  const fetchData = async () => {
-    const result = await axios.get(`/api/posts/for-you`);
-    return result.data;
-  };
-  const { data, isPending, isError } = useQuery<PostsPage>({
-    queryKey: ["posts-feed", "for-you"],
-    queryFn: fetchData,
+  const { ref, inView } = useInView({
+    rootMargin: "200px",
   });
-  console.log();
+
+  const {
+    data,
+    error,
+    isPending,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = usePosts();
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage]);
 
   if (isPending) {
-    return <Loader2 className="mx-auto animate-spin" />;
+    return <PostsLoadingSkeleton />;
   }
+  if (data?.length === 0) {
+    return (
+      <p className="text-muted-foreground text-center">
+        No friends have added any posts yet
+      </p>
+    );
+  }
+
   if (isError) {
-    return <p className="text-destructive text-center">An error occured!</p>;
+    return <p className="text-destructive text-center">{error.message}</p>;
   }
+
   return (
-    <div className="space-y-5">
-      {data?.posts.map((post) => (
+    <InfiniteScrollContainer
+      onReachButtom={() => hasNextPage && fetchNextPage()}
+      className="space-y-5"
+    >
+      {data?.map((post) => (
         <Post post={post} key={post.id} />
       ))}
-    </div>
+      {isFetchingNextPage && <Loader2 className="mx-auto animate-spin" />}
+      {!hasNextPage && data.length > 0 && (
+        <div className="bg-card space-y-3 rounded p-10 text-center shadow-sm">
+          <div className="posts space-y-2">
+            <p className="text-xl font-bold">No more posts</p>
+            <p className="text-muted-foreground">
+              Add more friends to see more posts in your feed
+            </p>
+          </div>
+          <Button asChild>
+            <Link href="/">Find Friends</Link>
+          </Button>
+        </div>
+      )}
+    </InfiniteScrollContainer>
   );
 }
 
