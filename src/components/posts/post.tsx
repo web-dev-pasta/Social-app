@@ -4,6 +4,7 @@ import parse from "html-react-parser";
 import Link from "next/link";
 import UserAvatar from "../user-avatar";
 import { formatRelativeDate } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 interface PostProps {
   post: PostData;
@@ -11,6 +12,17 @@ interface PostProps {
 
 function Post({ post }: PostProps) {
   const user = post.user;
+  // const [relativeTime, setRelativeTime] = useState(
+  //   formatRelativeDate(new Date(post.createdAt)),
+  // );
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setRelativeTime(formatRelativeDate(new Date(post.createdAt)));
+  //   }, 1000 * 5);
+
+  //   return () => clearInterval(interval);
+  // }, [post.createdAt]);
   return (
     <article className="bg-card space-y-3 rounded-2xl p-5 shadow-sm">
       <div className="flex flex-wrap gap-3">
@@ -29,6 +41,7 @@ function Post({ post }: PostProps) {
             className="text-muted-foreground block text-sm hover:underline"
           >
             {formatRelativeDate(new Date(post.createdAt))}
+            {/* {relativeTime} */}
           </Link>
         </div>
       </div>
@@ -38,9 +51,3 @@ function Post({ post }: PostProps) {
 }
 
 export default Post;
-/**
- * 
-      <p>Author : {post.user.displayUsername}</p>
-      <hr />
- * 
- */

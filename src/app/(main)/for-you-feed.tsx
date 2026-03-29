@@ -3,13 +3,10 @@
 import { Loader2 } from "lucide-react";
 import Post from "@/components/posts/post";
 import { Button } from "@/components/ui/button";
-import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
 import PostsLoadingSkeleton from "@/components/posts/loading-skeleton";
 import Link from "next/link";
 import { usePosts } from "@/hooks/use-posts";
 import InfiniteScrollContainer from "@/components/posts/infinite-scroll-container";
-import { toast } from "sonner";
 function ForYouFeed() {
   const {
     data,

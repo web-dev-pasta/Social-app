@@ -103,7 +103,11 @@ export function LoginForm({
                 )}
               />
               <Field>
-                <LoadingButton isSubmitting={isSubmitting} title="Login" />
+                <LoadingButton
+                  type="submit"
+                  isSubmitting={isSubmitting}
+                  title="Login"
+                />
               </Field>
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                 Or continue with

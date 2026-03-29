@@ -4,19 +4,17 @@ import UserAvatar from "@/components/user-avatar";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { Placeholder } from "@tiptap/extensions";
-import { submitPost } from "./actions";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { useTransition } from "react";
 
 import "./styles.css";
 import LoadingButton from "@/components/loading-button";
 import { toast } from "sonner";
+import { useSubmitPostMutation } from "./mutations";
 
 function PostEditor() {
   const [toSubmitInput, setToSubmitInput] = useState("");
   const [textInput, setTextInput] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const mutation = useSubmitPostMutation();
 
   const { user } = useSession();
   const editor = useEditor({
@@ -42,20 +40,23 @@ function PostEditor() {
 
   const onSubmit = async () => {
     try {
-      setIsSubmitting(true);
-      const result = await submitPost(toSubmitInput, textInput);
-      if (result?.error) {
-        toast.error(result.message);
+      const result = await mutation.mutateAsync(
+        {
+          toSubmitInput,
+          textInput,
+        },
+        {
+          onSuccess() {
+            editor?.commands.clearContent();
+          },
+        },
+      );
+      if (result.success) {
+        return toast.success(result.message);
       }
-      if (result?.success) {
-        toast.success(result.message);
-      }
-      editor?.commands.clearContent();
     } catch (err) {
-      const error = err as Error;
-      toast.error(error.message);
+      toast.error((err as Error).message);
     } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -70,10 +71,11 @@ function PostEditor() {
       </div>
       <div className="flex justify-end">
         <LoadingButton
-          disabled={!textInput.trim() || isSubmitting}
+          disabled={!textInput.trim() || mutation.isPending}
           onClick={onSubmit}
           title="Post"
-          isSubmitting={isSubmitting}
+          type="submit"
+          isSubmitting={mutation.isPending}
         />
       </div>
     </div>

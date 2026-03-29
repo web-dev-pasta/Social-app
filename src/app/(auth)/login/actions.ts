@@ -51,9 +51,8 @@ export const loginAction = async (credentials: LoginValues) => {
       error: false,
     };
   } catch (err) {
-    const error = err as Error;
     return {
-      message: error.message,
+      message: (err as Error).message,
       error: true,
     };
   }

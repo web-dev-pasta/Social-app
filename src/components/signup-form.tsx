@@ -136,6 +136,7 @@ export function SignupForm({
               />
               <Field>
                 <LoadingButton
+                  type="submit"
                   isSubmitting={isSubmitting}
                   title="Create Account"
                 />
