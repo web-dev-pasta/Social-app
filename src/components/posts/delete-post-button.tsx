@@ -73,9 +73,13 @@ function DeletePost({ post, user }: DeletePostProps) {
         {step === 1 ? (
           <DeleteStepOne user={user} />
         ) : step === 2 ? (
-          <DeleteStepTwo />
+          <DeleteStepTwo user={user} />
         ) : (
-          <DeleteStepThree handleTextChange={handleTextChange} text={confirm} />
+          <DeleteStepThree
+            user={user}
+            handleTextChange={handleTextChange}
+            text={confirm}
+          />
         )}
         <DialogFooter>
           {step === 3 ? (
@@ -124,26 +128,24 @@ function DeleteStepOne({
   };
 }) {
   return (
-    <>
-      <div className="relative flex flex-col gap-3 py-4">
-        <div className="space-y-2 text-center">
-          <Scroll className="mx-auto" />
-          <p className={cn("text-2xl font-bold", className)}>
-            Delete {user?.displayUsername}'s post
-          </p>
-        </div>
-
-        <div className="details flex items-center justify-center gap-3">
-          <div className="flex items-center gap-3">
-            0 <MessageSquare size={size ?? 20} />
-          </div>
-          <div className="flex items-center gap-3">
-            0 <ThumbsUp size={size ?? 20} />
-          </div>
-        </div>
-        {children}
+    <div className="relative flex flex-col gap-3 py-4">
+      <div className="space-y-2 text-center">
+        <Scroll className="mx-auto" />
+        <p className={cn("text-2xl font-bold", className)}>
+          Delete {user?.displayUsername}'s post
+        </p>
       </div>
-    </>
+
+      <div className="details flex items-center justify-center gap-3">
+        <div className="flex items-center gap-3">
+          0 <MessageSquare size={size ?? 20} />
+        </div>
+        <div className="flex items-center gap-3">
+          0 <ThumbsUp size={size ?? 20} />
+        </div>
+      </div>
+      {children}
+    </div>
   );
 }
 
@@ -154,10 +156,19 @@ DeleteStepOne.Divider = ({ className }: { className?: string }) => {
     />
   );
 };
-function DeleteStepTwo() {
+function DeleteStepTwo({
+  user,
+}: {
+  user?: {
+    id: string;
+    username: string | null;
+    displayUsername: string | null;
+    image: string | null;
+  };
+}) {
   return (
     <div>
-      <DeleteStepOne className="text-lg" size={15}>
+      <DeleteStepOne user={user} className="text-lg" size={15}>
         <DeleteStepOne.Divider />
       </DeleteStepOne>
       <div className="space-y-3 p-4 pb-0">
@@ -181,13 +192,20 @@ function DeleteStepTwo() {
 function DeleteStepThree({
   text,
   handleTextChange,
+  user,
 }: {
   text: string;
+  user?: {
+    id: string;
+    username: string | null;
+    displayUsername: string | null;
+    image: string | null;
+  };
   handleTextChange: (value: string) => void;
 }) {
   return (
     <div>
-      <DeleteStepOne className="text-lg" size={15}>
+      <DeleteStepOne user={user} className="text-lg" size={15}>
         <DeleteStepOne.Divider className="-left-4 w-[calc(100%+32px)]" />
       </DeleteStepOne>
       <FieldGroup className="p-4 pb-0">

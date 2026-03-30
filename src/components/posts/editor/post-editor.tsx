@@ -4,7 +4,7 @@ import UserAvatar from "@/components/user-avatar";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { Placeholder } from "@tiptap/extensions";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import "./styles.css";
 import LoadingButton from "@/components/loading-button";
@@ -12,8 +12,9 @@ import { toast } from "sonner";
 import { useSubmitPostMutation } from "./mutations";
 
 function PostEditor() {
-  const [toSubmitInput, setToSubmitInput] = useState("");
-  const [textInput, setTextInput] = useState("");
+  const textInputRef = useRef("");
+  const htmlInputRef = useRef("");
+  const [isEmpty, setIsEmpty] = useState(true);
   const mutation = useSubmitPostMutation();
 
   const { user } = useSession();
@@ -29,12 +30,12 @@ function PostEditor() {
     textDirection: "auto",
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
-      const text = editor.getText({
-        blockSeparator: "\n",
-      });
-      setTextInput(text);
-      const htmlText = editor.getHTML();
-      setToSubmitInput(htmlText);
+      const text = editor.getText({ blockSeparator: "\n" });
+
+      textInputRef.current = text;
+      htmlInputRef.current = editor.getHTML();
+
+      setIsEmpty(!text.trim());
     },
   });
 
@@ -42,8 +43,8 @@ function PostEditor() {
     try {
       const result = await mutation.mutateAsync(
         {
-          toSubmitInput,
-          textInput,
+          toSubmitInput: htmlInputRef.current,
+          textInput: textInputRef.current,
         },
         {
           onSuccess() {
@@ -71,7 +72,7 @@ function PostEditor() {
       </div>
       <div className="flex justify-end">
         <LoadingButton
-          disabled={!textInput.trim() || mutation.isPending}
+          disabled={isEmpty || mutation.isPending}
           onClick={onSubmit}
           title="Post"
           type="submit"
