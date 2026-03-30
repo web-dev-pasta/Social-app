@@ -3,7 +3,7 @@ import { Spinner } from "./ui/spinner";
 import { Button } from "./ui/button";
 
 interface LoadingButtonProps extends React.ComponentProps<typeof Button> {
-  isSubmitting: boolean;
+  isSubmitting?: boolean;
   title: string;
 }
 
