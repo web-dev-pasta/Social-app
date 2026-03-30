@@ -24,8 +24,9 @@ import {
   Trash,
   TriangleAlert,
 } from "lucide-react";
-import { deletePost } from "./actions";
 import { useCallback } from "react";
+import { useDeletePost } from "./mutations";
+import { toast } from "sonner";
 
 interface DeletePostProps {
   post: PostData;
@@ -39,10 +40,15 @@ interface DeletePostProps {
 function DeletePost({ post, user }: DeletePostProps) {
   const [confirm, setConfirm] = useState("");
   const [step, setStep] = useState(1);
-  const handleDelete = useCallback(async (id: Post["id"]) => {
-    const result = await deletePost(id);
-    console.log(result);
-  }, []);
+  const mutation = useDeletePost();
+  const handleDelete = async (id: Post["id"]) => {
+    try {
+      const result = await mutation.mutateAsync(id);
+      toast.success(result.message);
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
+  };
   const handleTextChange = useCallback((value: string) => {
     setConfirm(value);
   }, []);
