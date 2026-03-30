@@ -29,7 +29,7 @@ export async function deletePost(id: Post["id"]) {
       where: {
         id,
       },
-      include: getPostDataInclude,
+      include: getPostDataInclude(session.user.id),
     });
     return {
       message: "Post deleted successfully",

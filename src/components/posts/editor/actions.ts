@@ -31,7 +31,7 @@ export async function submitPost({
         content,
         userId: user.id,
       },
-      include: getPostDataInclude,
+      include: getPostDataInclude(user.id),
     });
 
     return {
