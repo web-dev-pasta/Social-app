@@ -20,13 +20,7 @@ async function Layout({ children }: { children: ReactNode }) {
         <Navbar />
         <div className="mx-auto flex w-full max-w-7xl grow gap-5 p-5">
           <MenuBar className="bg-card sticky top-21 h-fit flex-none space-y-3 rounded-2xl px-3 py-5 shadow-sm max-sm:hidden lg:px-5 xl:w-80" />
-          <main className="flex w-full min-w-0 gap-5">
-            <div className="w-full min-w-0 space-y-5">
-              <PostEditor />
-              <div className="space-y-3">{children}</div>
-            </div>
-            <TrendsSidebar />
-          </main>
+          {children}
         </div>
         <MenuBar className="bg-card sticky bottom-0 flex w-full justify-center gap-5 border-t p-3 sm:hidden" />
       </div>
