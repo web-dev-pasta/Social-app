@@ -1,11 +1,13 @@
 import { PostData, PostsPage } from "@/lib/types";
 import {
   InfiniteData,
+  QueryFilters,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
 import { deletePost } from "./actions";
+import { useSession } from "@/app/(main)/session-provider";
 
 export function useDeletePost() {
   const queryClient = useQueryClient();
@@ -14,11 +16,15 @@ export function useDeletePost() {
   return useMutation({
     mutationFn: deletePost,
     async onSuccess({ deletedPost }) {
+      const queryFilter: QueryFilters = {
+        queryKey: ["posts-feed"],
+      };
+
       await queryClient.cancelQueries({
         queryKey: ["posts-feed"],
       });
-      queryClient.setQueryData<InfiniteData<PostsPage, string | null>>(
-        ["posts-feed", "for-you"],
+      queryClient.setQueriesData<InfiniteData<PostsPage, string | null>>(
+        queryFilter,
 
         (oldData) => {
           if (!oldData) return;

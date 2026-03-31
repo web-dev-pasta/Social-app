@@ -5,14 +5,16 @@ interface UserAvatarProps {
   image?: string | null | undefined;
   size?: number;
   className?: string;
+  loading?: "eager" | "lazy" | undefined;
 }
 
-function UserAvatar({ image, size, className }: UserAvatarProps) {
+function UserAvatar({ image, size, className, loading }: UserAvatarProps) {
   return (
     <Image
       src={image ?? avatarPlaceHolder}
       alt="avatar"
       width={size ?? 48}
+      loading={loading || undefined}
       height={size ?? 48}
       sizes="20vh"
       className={cn(

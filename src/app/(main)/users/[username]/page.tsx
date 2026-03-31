@@ -89,6 +89,7 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
     <div className="bg-card h-fit w-full space-y-5 rounded-2xl p-5 shadow-sm">
       <UserAvatar
         image={user.image}
+        loading="eager"
         size={250}
         className="mx-auto aspect-square size-full max-h-60 max-w-60 rounded-full"
       />
