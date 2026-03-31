@@ -1,4 +1,4 @@
-import ForYouFeed from "../../for-you-feed";
+import ForYouFeed from "@/app/(main)/for-you-feed";
 
 export default function ForYou() {
   return <ForYouFeed />;
