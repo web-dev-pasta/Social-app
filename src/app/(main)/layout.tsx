@@ -23,10 +23,7 @@ async function Layout({ children }: { children: ReactNode }) {
           <main className="flex w-full min-w-0 gap-5">
             <div className="w-full min-w-0 space-y-5">
               <PostEditor />
-              <div className="space-y-3">
-                <ToggleFeeds />
-                {children}
-              </div>
+              <div className="space-y-3">{children}</div>
             </div>
             <TrendsSidebar />
           </main>

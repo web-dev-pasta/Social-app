@@ -7,8 +7,11 @@ function ToggleFeeds() {
   const pathName = usePathname();
   return (
     <div className="flex items-center gap-5 rounded-md p-2 shadow *:flex-1">
-      <Button asChild variant={pathName === "/" ? "secondary" : "outline"}>
-        <Link href={`/`}>For You</Link>
+      <Button
+        asChild
+        variant={pathName === "/for-you" ? "secondary" : "outline"}
+      >
+        <Link href={`/for-you`}>For You</Link>
       </Button>
       <Button
         asChild

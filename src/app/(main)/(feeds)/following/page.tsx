@@ -1,4 +1,4 @@
-import FollowingFeed from "../following-feed";
+import FollowingFeed from "../../following-feed";
 
 export default function FollowingPage() {
   return <FollowingFeed />;
