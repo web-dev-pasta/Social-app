@@ -36,6 +36,8 @@ export const loginAction = async (credentials: LoginValues) => {
         },
       });
     }
+    console.log({ email: email.success, username: username.success });
+
     if (
       (!email.success && !username.success) ||
       (email.success && username.success)

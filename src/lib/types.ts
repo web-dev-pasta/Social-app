@@ -25,6 +25,10 @@ export function getUserDataSelect(loggedInUserId: string) {
   } satisfies Prisma.UserSelect;
 }
 
+export type UserData = Prisma.UserGetPayload<{
+  select: ReturnType<typeof getUserDataSelect>;
+}>;
+
 export const getPostDataInclude = (userId: string) => {
   return {
     user: {
@@ -41,7 +45,7 @@ export interface PostsPage {
   nextCursor: string | null;
 }
 
-export interface FollowerInfo {
+export interface  FollowerInfo {
   followers: number;
   isFollowedByUser: boolean;
 }

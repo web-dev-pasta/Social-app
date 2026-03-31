@@ -27,8 +27,10 @@ export const auth = betterAuth({
   },
   plugins: [
     username({
-      minUsernameLength: 3,
       maxUsernameLength: 7,
+      usernameValidator(username) {
+        return /^[a-zA-Z0-9_-]+$/.test(username);
+      },
     }),
     nextCookies(),
   ],
