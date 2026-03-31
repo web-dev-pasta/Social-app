@@ -67,7 +67,6 @@ async function UserProfilePage({ params }: UserProfilePageProps) {
           <UserPostsFeed user={user} />
         </div>
       </div>
-      <TrendsSidebar />
     </main>
   );
 }
