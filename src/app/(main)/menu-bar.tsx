@@ -1,16 +1,21 @@
 "use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Bell, Bookmark, Home, Mail } from "lucide-react";
+import { Bell, Bookmark, Home, Mail, Flame, Users } from "lucide-react";
 interface MenuBarProps {
   className?: string;
 }
 
 const menuItems = [
   {
-    href: "/",
-    label: "Home",
-    icon: Home,
+    href: "/for-you",
+    label: "For You",
+    icon: Flame,
+  },
+  {
+    href: "/following",
+    label: "Following",
+    icon: Users,
   },
   {
     href: "/notifications",

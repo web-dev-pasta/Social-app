@@ -16,6 +16,7 @@ export default function useFollowerInfo(
     },
     initialData: initialState,
     staleTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 
   return query;
