@@ -51,7 +51,7 @@ function ForYouFeed() {
             </p>
           </div>
           <Button asChild>
-            <Link href="/">Find Friends</Link>
+            <Link href="/for-you">Find Friends</Link>
           </Button>
         </div>
       )}
