@@ -9,6 +9,7 @@ import DeletePost from "./delete-post-button";
 import { useMemo } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useSession } from "@/app/(main)/session-provider";
+import Linkify from "../linkify";
 interface PostProps {
   post: PostData;
 }
@@ -55,8 +56,9 @@ function Post({ post }: PostProps) {
           </div>
           {user.id === currentUser.id && <DeletePost user={user} post={post} />}
         </header>
-
-        <div className="wrap-break-word hyphens-auto">{parsedContent}</div>
+        <Linkify>
+          <div className="wrap-break-word hyphens-auto">{parsedContent}</div>
+        </Linkify>
       </article>
     </div>
   );

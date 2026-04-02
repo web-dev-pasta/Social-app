@@ -88,7 +88,11 @@ const getTrendingTopics = unstable_cache(
   FROM (
     SELECT DISTINCT p.id, LOWER(m[1]) AS hashtag
     FROM post p
-    CROSS JOIN LATERAL regexp_matches(p.content, '(#[[:alnum:]_]+)', 'g') AS m
+    CROSS JOIN LATERAL regexp_matches(
+      p.content,
+      '(#[A-Za-z0-9_ء-ي]+)',
+      'g'
+    ) AS m
   ) t
   GROUP BY hashtag
   ORDER BY count DESC, hashtag ASC
@@ -118,6 +122,7 @@ async function TrendingTopics() {
         return (
           <Link key={title} href={`/hashtag/${title}`} className="block">
             <p
+              dir="auto"
               className="line-clamp-1 font-semibold break-all hover:underline"
               title={hashtag}
             >
@@ -126,7 +131,6 @@ async function TrendingTopics() {
                 - {formatNumber(count)} {count === 1 ? "post" : "posts"}
               </span>
             </p>
-            <p></p>
           </Link>
         );
       })}
