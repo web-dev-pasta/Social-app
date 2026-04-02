@@ -10,6 +10,7 @@ import { useMemo } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useSession } from "@/app/(main)/session-provider";
 import Linkify from "../linkify";
+import UserTooltip from "../user-tooltip";
 interface PostProps {
   post: PostData;
 }
@@ -35,16 +36,20 @@ function Post({ post }: PostProps) {
       <article className="bg-background space-y-3 rounded-2xl p-5 shadow-sm">
         <header className="flex items-center justify-between">
           <div className="flex flex-wrap gap-3">
-            <Link href={`/users/${user.username}`}>
-              <UserAvatar image={user.image} size={40} />
-            </Link>
-            <div>
-              <Link
-                href={`/users/${user.username}`}
-                className="block font-medium hover:underline"
-              >
-                {user.displayUsername}
+            <UserTooltip user={user}>
+              <Link href={`/users/${user.username}`}>
+                <UserAvatar image={user.image} size={40} />
               </Link>
+            </UserTooltip>
+            <div>
+              <UserTooltip user={user}>
+                <Link
+                  href={`/users/${user.username}`}
+                  className="block font-medium hover:underline"
+                >
+                  {user.displayUsername}
+                </Link>
+              </UserTooltip>
               <Link
                 href={`/posts/${post.id}`}
                 className="text-muted-foreground block text-sm hover:underline"

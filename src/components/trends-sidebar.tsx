@@ -5,11 +5,10 @@ import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import UserAvatar from "./user-avatar";
-import { Button } from "./ui/button";
 import { formatNumber } from "@/lib/utils";
 import { unstable_cache } from "next/cache";
 import FollowButton from "./follow-button";
-import { useReactNodeView } from "@tiptap/react";
+import UserTooltip from "./user-tooltip";
 
 function TrendsSidebar() {
   return (
@@ -67,7 +66,6 @@ async function WhoToFollow() {
               </p>
             </div>
           </Link>
-
           <FollowButton
             userId={user.id}
             initialState={{
