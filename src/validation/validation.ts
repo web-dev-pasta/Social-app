@@ -42,3 +42,16 @@ export type LoginValues = z.infer<typeof LoginSchema>;
 export const createPostSchema = z.object({
   content: requiredField(),
 });
+
+export const UpdateUserProfileSchema = z.object({
+  displayUsername: requiredField("Please enter name")
+    .min(3, "Name cannot be less than 3 chars")
+    .regex(
+      /^[a-zA-Z0-9_-]+$/,
+      "Only letters, numbers, -, _ are allowed with no spaces",
+    )
+    .max(7, "Name can't exceed 7 characters"),
+  bio: z.string().max(1000, "Bio cannot exceed 1000 characters"),
+});
+
+export type UpdateUserProfileValues = z.infer<typeof UpdateUserProfileSchema>;
