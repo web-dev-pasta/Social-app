@@ -4,7 +4,7 @@ import UserAvatar from "@/components/user-avatar";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { Placeholder } from "@tiptap/extensions";
-import { useRef, useState } from "react";
+import { ClipboardEvent, useRef, useState } from "react";
 
 import "./styles.css";
 import LoadingButton from "@/components/loading-button";
@@ -82,6 +82,12 @@ function PostEditor() {
       toast.error((err as Error).message);
     }
   };
+  const onPaste = (e: ClipboardEvent<HTMLInputElement>) => {
+    const files = Array.from(e.clipboardData.items)
+      .filter((item) => item.kind === "file")
+      .map((item) => item.getAsFile()) as File[];
+    startUpload(files);
+  };
 
   return (
     <div className="bg-card flex flex-col gap-5 rounded-2xl p-5 shadow-sm">
@@ -90,6 +96,7 @@ function PostEditor() {
         <EditorContent
           editor={editor}
           className="dark:bg-background max-h-57 w-full overflow-y-auto rounded-2xl bg-gray-100 px-5 py-3"
+          onPaste={onPaste}
         />
       </div>
       {!!attachments.length && (
@@ -111,7 +118,7 @@ function PostEditor() {
         />
         <LoadingButton
           disabled={
-            (isEmpty && !attachments.length) || 
+            (isEmpty && !attachments.length) ||
             mutation.isPending ||
             isUploading ||
             hasPendingUploads
