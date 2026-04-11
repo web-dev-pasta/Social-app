@@ -11,6 +11,7 @@ import { useSession } from "@/app/(main)/session-provider";
 import Linkify from "../linkify";
 import UserTooltip from "../user-tooltip";
 import Image from "next/image";
+import LikeButton from "./like-button";
 interface PostProps {
   post: PostData;
 }
@@ -53,7 +54,7 @@ function Post({ post }: PostProps) {
               <Link
                 href={`/posts/${post.id}`}
                 className="text-muted-foreground block text-sm hover:underline"
-                suppressHydrationWarning
+                // suppressHydrationWarning
               >
                 {formatRelativeDate(new Date(post.createdAt))}
                 {/* {relativeTime} */}
@@ -68,6 +69,14 @@ function Post({ post }: PostProps) {
         {!!post.attachments.length && (
           <MediaPreviews attachments={post.attachments} />
         )}
+        <hr className="text-muted-foreground" />
+        <LikeButton
+          postId={post.id}
+          initialState={{
+            likes: post._count.likes,
+            isLikedByUser: post.likes.some((like) => like.userId === user.id),
+          }}
+        />
       </article>
     </div>
   );

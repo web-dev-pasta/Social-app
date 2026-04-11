@@ -35,6 +35,19 @@ export const getPostDataInclude = (userId: string) => {
       select: getUserDataSelect(userId),
     },
     attachments: true,
+    likes: {
+      where: {
+        userId,
+      },
+      select: {
+        userId: true,
+      },
+    },
+    _count: {
+      select: {
+        likes: true,
+      },
+    },
   } satisfies Prisma.PostInclude;
 };
 export type PostData = Prisma.PostGetPayload<{
@@ -49,4 +62,9 @@ export interface PostsPage {
 export interface FollowerInfo {
   followers: number;
   isFollowedByUser: boolean;
+}
+
+export interface LikeInfo {
+  likes: number;
+  isLikedByUser: boolean;
 }
