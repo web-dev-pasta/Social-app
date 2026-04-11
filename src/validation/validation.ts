@@ -39,9 +39,22 @@ export const LoginSchema = z.object({
 
 export type LoginValues = z.infer<typeof LoginSchema>;
 
-export const createPostSchema = z.object({
-  content: requiredField(),
-});
+export const createPostSchema = z
+  .object({
+    content: z.string().optional(),
+    mediaIds: z
+      .array(z.string())
+      .max(5, "Cannot have more than 5 attachments")
+      .default([]),
+  })
+  .refine(
+    (data) =>
+      (data.content?.trim().length ?? 0) > 0 || data.mediaIds.length > 0,
+    {
+      message: "Please add text or attachments",
+      path: ["content"],
+    },
+  );
 
 export const UpdateUserProfileSchema = z.object({
   displayUsername: requiredField("Please enter name")

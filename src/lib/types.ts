@@ -34,6 +34,7 @@ export const getPostDataInclude = (userId: string) => {
     user: {
       select: getUserDataSelect(userId),
     },
+    attachments: true,
   } satisfies Prisma.PostInclude;
 };
 export type PostData = Prisma.PostGetPayload<{
@@ -45,7 +46,7 @@ export interface PostsPage {
   nextCursor: string | null;
 }
 
-export interface  FollowerInfo {
+export interface FollowerInfo {
   followers: number;
   isFollowedByUser: boolean;
 }

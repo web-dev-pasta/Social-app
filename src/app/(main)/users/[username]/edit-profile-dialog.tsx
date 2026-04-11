@@ -169,22 +169,24 @@ function AvatarInput({ src, onImageCropped }: AvatarInputProps) {
         ref={fileInputRef}
         className="sr-only hidden"
       />
-      <button
-        type="button"
-        onClick={() => fileInputRef.current?.click()}
-        className="group relative block"
-      >
-        <Image
-          src={src}
-          alt="Avatar preview"
-          width={150}
-          height={150}
-          className="size-32 flex-none rounded-full object-cover"
-        />
-        <span className="bg-opacity-30 group-hover:bg-opacity-25 absolute inset-0 m-auto flex size-12 items-center justify-center rounded-full bg-black text-white transition-colors duration-200">
-          <Camera size={24} />
-        </span>
-      </button>
+      <div className="flex items-center justify-center">
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          className="group relative block"
+        >
+          <Image
+            src={src}
+            alt="Avatar preview"
+            width={150}
+            height={150}
+            className="size-32 flex-none rounded-full object-cover"
+          />
+          <span className="bg-opacity-30 absolute inset-0 m-auto flex size-12 items-center justify-center rounded-full bg-black/50 text-white transition-colors duration-200 group-hover:bg-black/60">
+            <Camera size={24} />
+          </span>
+        </button>
+      </div>
       {imageToCrop && (
         <CropImageDialog
           src={URL.createObjectURL(imageToCrop)}

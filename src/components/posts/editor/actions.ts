@@ -7,11 +7,13 @@ import { createPostSchema } from "@/validation/validation";
 interface SubmitPostInput {
   toSubmitInput: string;
   textInput: string;
+  mediaIds?: string[];
 }
 
 export async function submitPost({
   toSubmitInput,
   textInput,
+  mediaIds = [],
 }: SubmitPostInput) {
   try {
     const session = await getServerSession();
@@ -19,17 +21,23 @@ export async function submitPost({
       throw new Error("Unauthorized");
     }
 
-    if (!textInput || !textInput.trim()) {
+    if ((!textInput || !textInput.trim()) && !mediaIds.length) {
       throw new Error("Invalid inputs");
     }
     const user = session.user;
-    const { content } = createPostSchema.parse({
+    const parsedPost = createPostSchema.parse({
       content: toSubmitInput,
+      mediaIds,
     });
+    const content = parsedPost.content ?? "";
+    const validatedMediaIds = parsedPost.mediaIds ?? [];
     const newPost = await prisma.post.create({
       data: {
         content,
         userId: user.id,
+        attachments: {
+          connect: validatedMediaIds.map((id) => ({ id })),
+        },
       },
       include: getPostDataInclude(user.id),
     });
