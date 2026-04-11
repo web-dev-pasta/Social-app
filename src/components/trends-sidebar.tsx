@@ -112,26 +112,30 @@ async function TrendingTopics() {
   const trendingTopics = await getTrendingTopics();
 
   return (
-    <div className="bg-card space-y-5 rounded-2xl p-5 shadow-sm">
-      <div className="text-xl font-bold">Trending topics</div>
-      {trendingTopics.map(({ hashtag, count }) => {
-        const title = hashtag.split("#")[1];
+    <>
+      {trendingTopics.length > 0 ? (
+        <div className="bg-card space-y-5 rounded-2xl p-5 shadow-sm">
+          <div className="text-xl font-bold">Trending topics</div>
+          {trendingTopics.map(({ hashtag, count }) => {
+            const title = hashtag.split("#")[1];
 
-        return (
-          <Link key={title} href={`/hashtag/${title}`} className="block">
-            <p
-              dir="auto"
-              className="line-clamp-1 font-semibold break-all hover:underline"
-              title={hashtag}
-            >
-              {hashtag}{" "}
-              <span className="text-muted-foreground text-sm font-normal">
-                - {formatNumber(count)} {count === 1 ? "post" : "posts"}
-              </span>
-            </p>
-          </Link>
-        );
-      })}
-    </div>
+            return (
+              <Link key={title} href={`/hashtag/${title}`} className="block">
+                <p
+                  dir="auto"
+                  className="line-clamp-1 font-semibold break-all hover:underline"
+                  title={hashtag}
+                >
+                  {hashtag}{" "}
+                  <span className="text-muted-foreground text-sm font-normal">
+                    - {formatNumber(count)} {count === 1 ? "post" : "posts"}
+                  </span>
+                </p>
+              </Link>
+            );
+          })}
+        </div>
+      ) : null}
+    </>
   );
 }

@@ -7,7 +7,6 @@ import UserAvatar from "../user-avatar";
 import { cn, formatRelativeDate } from "@/lib/utils";
 import DeletePost from "./delete-post-button";
 import { useMemo } from "react";
-import { authClient } from "@/lib/auth-client";
 import { useSession } from "@/app/(main)/session-provider";
 import Linkify from "../linkify";
 import UserTooltip from "../user-tooltip";
@@ -54,6 +53,7 @@ function Post({ post }: PostProps) {
               <Link
                 href={`/posts/${post.id}`}
                 className="text-muted-foreground block text-sm hover:underline"
+                suppressHydrationWarning
               >
                 {formatRelativeDate(new Date(post.createdAt))}
                 {/* {relativeTime} */}
