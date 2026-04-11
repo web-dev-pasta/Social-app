@@ -1,5 +1,4 @@
 import { BookmarkInfo } from "@/lib/types";
-import { cn } from "@/lib/utils";
 import {
   QueryKey,
   useMutation,

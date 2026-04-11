@@ -7,7 +7,6 @@ import {
 } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
 import { deletePost } from "./actions";
-import { useSession } from "@/app/(main)/session-provider";
 
 export function useDeletePost() {
   const queryClient = useQueryClient();

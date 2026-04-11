@@ -6,13 +6,16 @@ import Link from "next/link";
 import UserAvatar from "../user-avatar";
 import { cn, formatRelativeDate } from "@/lib/utils";
 import DeletePost from "./delete-post-button";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useSession } from "@/app/(main)/session-provider";
 import Linkify from "../linkify";
 import UserTooltip from "../user-tooltip";
 import Image from "next/image";
 import LikeButton from "./like-button";
 import BookmarkButton from "./bookmark-button";
+import { MessageSquare } from "lucide-react";
+import Comments from "../comments/comments";
+import { usePathname } from "next/navigation";
 interface PostProps {
   post: PostData;
 }
@@ -20,6 +23,10 @@ interface PostProps {
 function Post({ post }: PostProps) {
   const user = post.user;
   const { user: currentUser } = useSession();
+  const pathName = usePathname();
+  const [showComments, setShowComments] = useState(
+    pathName.startsWith(`/posts`) ? true : false,
+  );
   // const [relativeTime, setRelativeTime] = useState(
   //   formatRelativeDate(new Date(post.createdAt)),
   // );
@@ -72,22 +79,27 @@ function Post({ post }: PostProps) {
         )}
         <hr className="text-muted-foreground" />
         <div className="flex items-center justify-between gap-3">
-          <LikeButton
-            postId={post.id}
-            initialState={{
-              likes: post._count.likes,
-              isLikedByUser: post.likes.some((like) => like.userId === user.id),
-            }}
-          />
+          <div className="flex items-center gap-2">
+            <LikeButton
+              postId={post.id}
+              initialState={{
+                likes: post._count.likes,
+                isLikedByUser: post.likes.length > 0,
+              }}
+            />
+            <CommentButton
+              post={post}
+              onClick={() => setShowComments((prev) => !prev)}
+            />
+          </div>
           <BookmarkButton
             postId={post.id}
             initialState={{
-              isBookmarkedByUser: post.bookmarks.some(
-                (bookmark) => bookmark.userId === user.id,
-              ),
+              isBookmarkedByUser: post.bookmarks.length > 0,
             }}
           />
         </div>
+        {showComments && <Comments post={post} />}
       </article>
     </div>
   );
@@ -144,4 +156,21 @@ function MediaPreview({ media }: MediaPreviewProps) {
   }
 
   return <p className="text-destructive">Unsupported media type</p>;
+}
+
+interface CommentButtonProps {
+  post: PostData;
+  onClick: () => void;
+}
+
+function CommentButton({ post, onClick }: CommentButtonProps) {
+  return (
+    <button onClick={onClick} className="flex items-center gap-2">
+      <MessageSquare className="size-5" />
+      <span className="text-sm font-medium tabular-nums">
+        {post._count.comments}{" "}
+        <span className="hidden sm:inline">comments</span>
+      </span>
+    </button>
+  );
 }

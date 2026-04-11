@@ -7,9 +7,9 @@ export const useUserPosts = (userId: string) => {
   }: {
     pageParam: string | null | unknown;
   }) => {
-    const result = await axios.get(
-      `/api/users/${userId}/posts?${pageParam ? `cursor=${pageParam}` : ``}`,
-    );
+    const result = await axios.get(`/api/users/${userId}/posts`, {
+      params: pageParam ? { cursor: pageParam } : {},
+    });
     return result.data;
   };
   const getQueryOptions = infiniteQueryOptions<

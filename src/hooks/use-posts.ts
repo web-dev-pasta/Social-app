@@ -6,9 +6,9 @@ const fetchData = async ({
 }: {
   pageParam: string | null | unknown;
 }) => {
-  const result = await axios.get(
-    `/api/posts/for-you?${pageParam ? `cursor=${pageParam}` : ``}`,
-  );
+  const result = await axios.get(`/api/posts/for-you`, {
+    params: pageParam ? { cursor: pageParam } : {},
+  });
   return result.data;
 };
 export const usePosts = () => {

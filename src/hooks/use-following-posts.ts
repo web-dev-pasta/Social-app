@@ -6,9 +6,9 @@ const fetchData = async ({
 }: {
   pageParam: string | null | unknown;
 }) => {
-  const result = await axios.get(
-    `/api/posts/following?${pageParam ? `cursor=${pageParam}` : ``}`,
-  );
+  const result = await axios.get(`/api/posts/following`, {
+    params: pageParam ? { cursor: pageParam } : {},
+  });
   return result.data;
 };
 export const useFollowingPosts = () => {
