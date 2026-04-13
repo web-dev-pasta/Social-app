@@ -114,8 +114,12 @@ export function LoginForm({
               </FieldSeparator>
               <SocialProviders
                 isSubmitting={isSubmitting}
-                handleAppleClick={() => {}}
-                handleGoogleClick={() => {}}
+                handleAppleClick={() => {
+                  toast.info("Coming Soon!");
+                }}
+                handleGoogleClick={() => {
+                  toast.info("Coming Soon!");
+                }}
               />
               <FieldDescription className="text-center">
                 Don&apos;t have an account? <Link href="/signup">Sign up</Link>

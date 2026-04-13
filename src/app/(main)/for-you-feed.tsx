@@ -24,7 +24,7 @@ function ForYouFeed() {
   if (data?.length === 0) {
     return (
       <p className="text-muted-foreground text-center text-pretty">
-        No friends have added any posts yet
+        No posts yet
       </p>
     );
   }

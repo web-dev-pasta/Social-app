@@ -19,7 +19,7 @@ export default function MessagesButton({ initialState }: MessagesButtonProps) {
       return result.data;
     },
     initialData: initialState,
-    refetchInterval: 1000,
+    refetchInterval: 1000 * 60,
   });
 
   return (

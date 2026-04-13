@@ -1,11 +1,14 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "./ui/input";
 import { SearchIcon } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 function SearchField() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
   function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
@@ -13,7 +16,11 @@ function SearchField() {
     if (!q) {
       return;
     }
-    router.push(`/search?q=${encodeURIComponent(q)}`);
+    if (q === searchParams.get("q")) {
+      queryClient.invalidateQueries();
+    } else {
+      router.push(`/search?q=${encodeURIComponent(q)}`);
+    }
   }
   return (
     <form onSubmit={handleSubmit} action="/search" method="GET">
