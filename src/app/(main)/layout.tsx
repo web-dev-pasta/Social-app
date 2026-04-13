@@ -17,10 +17,7 @@ async function Layout({ children }: { children: ReactNode }) {
         <div className="mx-auto flex w-full max-w-7xl grow gap-5 p-5">
           <MenuBar className="bg-card sticky top-21 h-fit flex-none space-y-3 rounded-2xl px-3 py-5 shadow-sm max-sm:hidden lg:px-5 xl:w-80" />
           <div className="w-full min-w-0">
-            <main className="flex h-full w-full min-w-0 gap-5">
-              <div className="w-full min-w-0">{children}</div>
-              <TrendsSidebar />
-            </main>
+            <main className="h-full w-full min-w-0">{children}</main>
           </div>
         </div>
         <MenuBar className="bg-card sticky bottom-0 flex w-full justify-center gap-5 border-t p-3 sm:hidden" />

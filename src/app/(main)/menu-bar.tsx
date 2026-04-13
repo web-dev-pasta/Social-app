@@ -37,8 +37,14 @@ async function MenuBar({ className }: MenuBarProps) {
 
   if (!session || !session.user) return null;
   const { user } = session;
-  const unreadMessagesCount = (await streamServerClient.getUnreadCount(user.id))
-    .total_unread_count;
+  let unreadMessagesCount = 0;
+
+  try {
+    const res = await streamServerClient.getUnreadCount(user.id);
+    unreadMessagesCount = res.total_unread_count;
+  } catch (error) {
+    console.error("Stream error:", error);
+  }
 
   return (
     <div className={className}>
