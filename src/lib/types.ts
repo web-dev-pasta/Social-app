@@ -98,3 +98,7 @@ export interface CommentsPage {
   comments: CommentData[];
   previousCursor: string | null;
 }
+
+export interface MessageCountInfo {
+  unreadCount: number;
+}

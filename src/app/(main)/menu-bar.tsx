@@ -18,11 +18,6 @@ const menuItems = [
     icon: Users,
   },
   {
-    href: "/notifications",
-    label: "Notifications",
-    icon: Bell,
-  },
-  {
     href: "/messages",
     label: "Messages",
     icon: Mail,
