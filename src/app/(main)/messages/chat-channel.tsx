@@ -7,6 +7,7 @@ import {
   ChannelHeaderProps,
   MessageInput,
   MessageList,
+  useChatContext,
   Window,
 } from "stream-chat-react";
 
@@ -16,8 +17,17 @@ interface ChatChannelProps {
 }
 
 export default function ChatChannel({ open, openSidebar }: ChatChannelProps) {
+  const { channel } = useChatContext();
+
   return (
     <div className={cn("h-full w-full md:block", !open && "hidden")}>
+      {!channel?.id && (
+        <div className="border-border flex h-21.5 items-center gap-3 p-2 md:hidden">
+          <Button size="icon" variant="ghost" onClick={openSidebar}>
+            <Menu className="size-5" />
+          </Button>
+        </div>
+      )}
       <Channel
         EmptyPlaceholder={
           <div className="flex h-full items-center justify-center p-6 text-center">
@@ -50,8 +60,8 @@ function CustomChannelHeader({
   ...props
 }: CustomChannelHeaderProps) {
   return (
-    <div className="flex items-center gap-3">
-      <div className="h-full p-2 md:hidden">
+    <div className="flex items-center gap-3 p-2">
+      <div className="md:hidden">
         <Button size="icon" variant="ghost" onClick={openSidebar}>
           <Menu className="size-5" />
         </Button>

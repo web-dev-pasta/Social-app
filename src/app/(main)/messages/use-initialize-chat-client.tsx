@@ -22,7 +22,7 @@ export default function useInitializeChatClient() {
         },
         async () => {
           const res = await axios.get("/api/get-token");
-          return res.data.token; 
+          return res.data.token;
         },
       )
       .then(() => setChatClient(client))

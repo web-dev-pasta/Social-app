@@ -7,6 +7,7 @@ import { Chat as StreamChat, useChatContext } from "stream-chat-react";
 import useInitializeChatClient from "./use-initialize-chat-client";
 import ChatSidebar from "./chat-sidebar";
 import ChatChannel from "./chat-channel";
+import { useMediaQuery } from "usehooks-ts";
 
 function ResetActiveChannelOnMount() {
   const { setActiveChannel } = useChatContext();
@@ -32,11 +33,14 @@ function ResetActiveChannelOnMount() {
 
 export default function Chat() {
   const chatClient = useInitializeChatClient();
+  const isMobile = useMediaQuery("(max-width: 767px)");
 
   const { resolvedTheme } = useTheme();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  useEffect(() => {
+    setSidebarOpen(isMobile);
+  }, [isMobile]);
   if (!chatClient) {
     return <Loader2 className="mx-auto my-3 animate-spin" />;
   }

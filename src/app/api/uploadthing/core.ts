@@ -1,5 +1,7 @@
 import { getServerSession } from "@/lib/get-session";
 import { prisma } from "@/lib/prisma";
+import streamServerClient from "@/lib/stream";
+import { MetadataBoundary } from "next/dist/lib/framework/boundary-components";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError, UTApi } from "uploadthing/server";
 
@@ -26,14 +28,20 @@ export const ourFileRouter = {
         const key = oldAvatarUrl.split("/f/")[1];
         await new UTApi().deleteFiles(key);
       }
-      await prisma.user.update({
-        where: {
+      await Promise.all([
+        prisma.user.update({
+          where: { id: metadata.id },
+          data: {
+            image: file.ufsUrl,
+          },
+        }),
+        streamServerClient.partialUpdateUser({
           id: metadata.id,
-        },
-        data: {
-          image: file.ufsUrl,
-        },
-      });
+          set: {
+            image: file.ufsUrl,
+          },
+        }),
+      ]);
       return {
         image: file.ufsUrl,
       };

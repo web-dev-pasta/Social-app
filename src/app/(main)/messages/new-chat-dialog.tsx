@@ -33,7 +33,7 @@ export default function NewChatDialog({
 
   const [selectedUsers, setSelectedUsers] = useState<UserResponse[]>([]);
 
-  const { data, isFetching, isError, isSuccess } = useQuery({
+  const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["stream-users", searchInputDebounced],
     queryFn: async () =>
       client.queryUsers(
@@ -80,7 +80,7 @@ export default function NewChatDialog({
 
   return (
     <Dialog open onOpenChange={onOpenChange}>
-      <DialogContent className="bg-card p-0">
+      <DialogContent className="bg-card overflow-hidden p-0">
         <DialogHeader className="px-6 pt-6">
           <DialogTitle>New chat</DialogTitle>
         </DialogHeader>
@@ -131,7 +131,7 @@ export default function NewChatDialog({
                 No users found. Try a different name.
               </p>
             )}
-            {isFetching && <Loader2 className="mx-auto my-3 animate-spin" />}
+            {isLoading && <Loader2 className="mx-auto my-3 animate-spin" />}
             {isError && (
               <p className="text-destructive my-3 text-center">
                 An error occurred while loading users.

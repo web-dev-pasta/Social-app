@@ -1,7 +1,10 @@
-"use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Bell, Bookmark, Home, Mail, Flame, Users } from "lucide-react";
+import { Bookmark, Flame, Mail, Users } from "lucide-react";
+import { getServerSession } from "@/lib/get-session";
+import streamServerClient from "@/lib/stream";
+import MessagesButton from "./messages-button";
+import React from "react";
 interface MenuBarProps {
   className?: string;
 }
@@ -29,25 +32,39 @@ const menuItems = [
   },
 ];
 
-function MenuBar({ className }: MenuBarProps) {
+async function MenuBar({ className }: MenuBarProps) {
+  const session = await getServerSession();
+
+  if (!session || !session.user) return null;
+  const { user } = session;
+  const unreadMessagesCount = (await streamServerClient.getUnreadCount(user.id))
+    .total_unread_count;
+
   return (
     <div className={className}>
       {menuItems.map((item) => {
-        const Icon = item.icon;
+        const Icon = item?.icon;
 
         return (
-          <Button
-            key={item.label}
-            variant="ghost"
-            className="flex items-center justify-start gap-3"
-            title={item.label}
-            asChild
-          >
-            <Link href={item.href}>
-              <Icon />
-              <span className="max-lg:hidden">{item.label}</span>
-            </Link>
-          </Button>
+          <React.Fragment key={item.label}>
+            {item.href === `/messages` ? (
+              <MessagesButton
+                initialState={{ unreadCount: unreadMessagesCount }}
+              />
+            ) : (
+              <Button
+                variant="ghost"
+                className="relative flex items-center justify-start gap-3"
+                title={item.label}
+                asChild
+              >
+                <Link href={item.href}>
+                  <Icon />
+                  <span className="max-lg:hidden">{item.label}</span>
+                </Link>
+              </Button>
+            )}
+          </React.Fragment>
         );
       })}
     </div>

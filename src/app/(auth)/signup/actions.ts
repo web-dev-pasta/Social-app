@@ -2,6 +2,7 @@
 
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import streamServerClient from "@/lib/stream";
 import { SignupSchema, SignupValues } from "@/validation/validation";
 
 type ErrorType = "email" | "username";
@@ -45,8 +46,14 @@ export const signupAction = async (credentials: SignupValues) => {
         errorType: "email" as ErrorType,
       };
     }
-    const user = await auth.api.signUpEmail({
+    const { user } = await auth.api.signUpEmail({
       body: { name, email, password, displayUsername: name },
+    });
+    await streamServerClient.upsertUser({
+      id: user.id,
+      username: user.username || undefined,
+      name: user.displayUsername || user.name,
+      image: user.image || undefined,
     });
     return {
       message: "User created successfully",
