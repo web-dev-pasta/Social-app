@@ -1,0 +1,49 @@
+import { getServerSession } from "@/lib/get-session";
+import { prisma } from "@/lib/prisma";
+import { getPostDataInclude, PostsPage } from "@/lib/types";
+import { NextRequest } from "next/server";
+
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ slug: string }> },
+) {
+  try {
+    const cursor = req.nextUrl.searchParams.get("cursor") || undefined;
+    const { slug } = await params;
+
+    const pageSize = 10;
+    const session = await getServerSession();
+
+    if (!session?.user) {
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const hashtag = `#${slug}`;
+
+    const posts = await prisma.post.findMany({
+      where: {
+        content: {
+          contains: hashtag,
+          mode: "insensitive",
+        },
+      },
+      include: getPostDataInclude(session.user.id),
+      orderBy: { createdAt: "desc" },
+      take: pageSize + 1,
+      cursor: cursor ? { id: cursor } : undefined,
+    });
+
+    const nextCursor = posts.length > pageSize ? posts[pageSize].id : null;
+
+    const data: PostsPage = {
+      posts: posts.slice(0, pageSize),
+      nextCursor,
+    };
+
+    return Response.json(data);
+  } catch (error) {
+    console.error(error);
+    return Response.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
+
