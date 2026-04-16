@@ -22,7 +22,7 @@ export default async function Page({ searchParams }: any) {
     <main className="flex w-full min-w-0 gap-5">
       <div className="w-full min-w-0 space-y-5">
         <div className="bg-card rounded-2xl p-5 shadow-sm">
-          <h1 className="text-center text-2xl font-bold">
+          <h1 className="mb-4 text-center text-2xl font-bold">
             Search results for &quot;{q}&quot;
           </h1>
           <SearchResults query={q} />
