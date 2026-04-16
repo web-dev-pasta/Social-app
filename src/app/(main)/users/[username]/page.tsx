@@ -60,7 +60,7 @@ async function UserProfilePage({ params }: UserProfilePageProps) {
       <div className="w-full min-w-0 space-y-5">
         <UserProfile user={user} loggedInUserId={session.user.id} />
         <div className="bg-card rounded-2xl p-5 shadow-sm">
-          <h2 className="text-center text-2xl font-bold">
+          <h2 className="mb-4 text-center text-2xl font-bold">
             {user.displayUsername}'s posts
           </h2>
           <UserPostsFeed user={user} />

@@ -66,6 +66,7 @@ export default function NewChatDialog({
             : undefined,
       } as any);
       await channel.create();
+      await channel.watch();
       return channel;
     },
     onSuccess: (channel) => {
@@ -80,7 +81,10 @@ export default function NewChatDialog({
 
   return (
     <Dialog open onOpenChange={onOpenChange}>
-      <DialogContent className="bg-card overflow-hidden p-0">
+      <DialogContent
+        className="bg-card overflow-hidden p-0"
+        aria-describedby={undefined}
+      >
         <DialogHeader className="px-6 pt-6">
           <DialogTitle>New chat</DialogTitle>
         </DialogHeader>

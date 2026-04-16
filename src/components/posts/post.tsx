@@ -42,7 +42,7 @@ function Post({ post }: PostProps) {
 
   return (
     <div>
-      <article className="bg-background space-y-3 rounded-2xl p-5 shadow-sm">
+      <article className="bg-background space-y-3 rounded-2xl border p-5 shadow-sm">
         <header className="flex items-center justify-between">
           <div className="flex flex-wrap gap-3">
             <UserTooltip user={user}>

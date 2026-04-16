@@ -77,11 +77,12 @@ function DeletePost({ post, user }: DeletePostProps) {
           <div className="absolute -bottom-2 -left-4 w-[calc(100%+32px)] border-t" />
         </DialogHeader>
         {step === 1 ? (
-          <DeleteStepOne user={user} />
+          <DeleteStepOne user={user} post={post} />
         ) : step === 2 ? (
-          <DeleteStepTwo user={user} />
+          <DeleteStepTwo user={user} post={post} />
         ) : (
           <DeleteStepThree
+            post={post}
             user={user}
             handleTextChange={handleTextChange}
             text={confirm}
@@ -122,6 +123,7 @@ function DeleteStepOne({
   className,
   size,
   children,
+  post,
 }: {
   children?: ReactNode;
   className?: string;
@@ -132,6 +134,7 @@ function DeleteStepOne({
     displayUsername: string | null;
     image: string | null;
   };
+  post: PostData;
 }) {
   return (
     <div className="relative flex flex-col gap-3 py-4">
@@ -144,10 +147,10 @@ function DeleteStepOne({
 
       <div className="details flex items-center justify-center gap-3">
         <div className="flex items-center gap-3">
-          0 <MessageSquare size={size ?? 20} />
+          {post._count.comments} <MessageSquare size={size ?? 20} />
         </div>
         <div className="flex items-center gap-3">
-          0 <ThumbsUp size={size ?? 20} />
+          {post._count.likes} <ThumbsUp size={size ?? 20} />
         </div>
       </div>
       {children}
@@ -164,6 +167,7 @@ DeleteStepOne.Divider = ({ className }: { className?: string }) => {
 };
 function DeleteStepTwo({
   user,
+  post,
 }: {
   user?: {
     id: string;
@@ -171,10 +175,11 @@ function DeleteStepTwo({
     displayUsername: string | null;
     image: string | null;
   };
+  post: PostData;
 }) {
   return (
     <div>
-      <DeleteStepOne user={user} className="text-lg" size={15}>
+      <DeleteStepOne post={post} user={user} className="text-lg" size={15}>
         <DeleteStepOne.Divider />
       </DeleteStepOne>
       <div className="space-y-3 p-4 pb-0">
@@ -199,6 +204,7 @@ function DeleteStepThree({
   text,
   handleTextChange,
   user,
+  post,
 }: {
   text: string;
   user?: {
@@ -208,10 +214,11 @@ function DeleteStepThree({
     image: string | null;
   };
   handleTextChange: (value: string) => void;
+  post: PostData;
 }) {
   return (
     <div>
-      <DeleteStepOne user={user} className="text-lg" size={15}>
+      <DeleteStepOne post={post} user={user} className="text-lg" size={15}>
         <DeleteStepOne.Divider className="-left-4 w-[calc(100%+32px)]" />
       </DeleteStepOne>
       <FieldGroup className="p-4 pb-0">
