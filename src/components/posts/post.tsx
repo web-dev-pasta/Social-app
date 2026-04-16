@@ -134,7 +134,7 @@ function MediaPreview({ media }: MediaPreviewProps) {
   if (media.type === "IMAGE") {
     return (
       <Image
-        src={media.url}
+        src="https://buord99ncn.ufs.sh/f/RKgi7cMX2Qnen16uQ0qlPdU7zaEMgY5j3vhIeHNkxuC1qKiS"
         alt="Attachment"
         width={500}
         height={500}

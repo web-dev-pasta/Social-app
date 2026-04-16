@@ -162,7 +162,7 @@ export function SignupForm({
             <Image
               src={signupImage}
               alt="signup-image"
-              className="absolute inset-0 h-full w-full object-cover transition-all dark:brightness-[0.2] dark:grayscale"
+              className="absolute inset-0 h-full w-full object-cover transition-all dark:brightness-[0.8]"
               loading="eager"
             />
           </div>

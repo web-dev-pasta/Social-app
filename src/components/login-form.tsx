@@ -59,7 +59,7 @@ export function LoginForm({
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
                 <p className="text-muted-foreground text-balance">
-                  Login to your Social App account
+                  Login to your Snappit account
                 </p>
               </div>
               <Controller
@@ -130,7 +130,7 @@ export function LoginForm({
             <Image
               src={loginImage}
               alt="signup-image"
-              className="absolute h-full object-cover dark:brightness-[0.2] dark:grayscale"
+              className="absolute h-full object-cover dark:brightness-[0.8]"
               loading="eager"
             />
           </div>

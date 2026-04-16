@@ -4,11 +4,10 @@ import { ReactNode } from "react";
 import SessionProvider from "./session-provider";
 import Navbar from "@/components/navbar";
 import MenuBar from "./menu-bar";
-import TrendsSidebar from "@/components/trends-sidebar";
 
 async function Layout({ children }: { children: ReactNode }) {
   const session = await getServerSession();
-  if (!session?.user) redirect("/login");
+  if (!session || !session?.user) redirect("/login");
 
   return (
     <SessionProvider value={{ session, user: session.user }}>

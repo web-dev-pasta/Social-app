@@ -38,7 +38,7 @@ function UserButton({ className }: UserButtonProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="outline-none">
+        <button className={`outline-none ${className ?? ""}`}>
           <UserAvatar image={user.image} size={40} />
         </button>
       </DropdownMenuTrigger>
@@ -50,7 +50,7 @@ function UserButton({ className }: UserButtonProps) {
           <DropdownMenuItem>
             <Link
               href={`/users/${user.name}`}
-              className="flex items-center gap-2"
+              className="flex w-full items-center gap-2"
             >
               <span>Profile</span>
               <UserIcon />
@@ -65,7 +65,7 @@ function UserButton({ className }: UserButtonProps) {
               <span>Theme</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
-              <DropdownMenuSubContent>
+              <DropdownMenuSubContent className="space-y-1">
                 <DropdownMenuItem
                   onClick={() => setTheme("system")}
                   className={`${theme === "system" ? `bg-accent` : null}`}

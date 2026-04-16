@@ -16,8 +16,8 @@ const geistSans = Geist({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Social App",
-    default: "Social App",
+    template: "%s | Snappit",
+    default: "Snappit",
   },
   description: "Social media app built with nextjs",
 };

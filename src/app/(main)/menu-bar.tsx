@@ -5,6 +5,7 @@ import { getServerSession } from "@/lib/get-session";
 import streamServerClient from "@/lib/stream";
 import MessagesButton from "./messages-button";
 import React from "react";
+import { SearchField, SearchFieldMobile } from "@/components/search-field";
 interface MenuBarProps {
   className?: string;
 }
@@ -73,6 +74,11 @@ async function MenuBar({ className }: MenuBarProps) {
           </React.Fragment>
         );
       })}
+      <div className="sm:hidden">
+        <SearchField>
+          <SearchFieldMobile />
+        </SearchField>
+      </div>
     </div>
   );
 }
