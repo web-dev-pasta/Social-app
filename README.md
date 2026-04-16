@@ -1,4 +1,4 @@
-# Snappit - Social Media App
+# Snappit - Social Media App [🔗](https://social-app-liart-six.vercel.app/)
 
 ![Preview screenshot](src/assets/preview.png)
 
@@ -108,3 +108,5 @@ The delete post modal uses a compound component pattern with shared UI pieces:
 - `DeleteStepOne` and `DeleteStepTwo` components for structured confirmation steps
 - `DeleteStepOne.Divider` for reusable layout enforcement
 - a final typed confirmation step before deletion
+
+[Signup and use Snappit, It's free!](https://social-app-liart-six.vercel.app/signup)
