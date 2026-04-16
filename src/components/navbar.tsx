@@ -14,7 +14,7 @@ function Navbar() {
             className="text-primary flex items-center gap-2 text-2xl font-bold outline-0"
           >
             <Image src={logo} alt="logo" width={40} height={40} />
-            <span>Snappit</span>
+            <span className="dark:text-white">Snappit</span>
           </Link>
           <SearchField>
             <SearchFieldLaptop />
