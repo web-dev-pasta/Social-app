@@ -86,6 +86,7 @@ model Post {
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  pinned      Boolean    @default(false)
   attachments Media[]
   likes       Like[]
   bookmarks   Bookmark[]

@@ -13,7 +13,7 @@ import UserTooltip from "../user-tooltip";
 import Image from "next/image";
 import LikeButton from "./like-button";
 import BookmarkButton from "./bookmark-button";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, Pin } from "lucide-react";
 import Comments from "../comments/comments";
 import { usePathname } from "next/navigation";
 interface PostProps {
@@ -69,7 +69,18 @@ function Post({ post }: PostProps) {
               </Link>
             </div>
           </div>
-          {user.id === currentUser.id && <DeletePost user={user} post={post} />}
+          <div className="flex items-center gap-3">
+            {post.pinned && pathName.startsWith("/for-you") && (
+              <div className="text-muted-foreground flex items-center gap-0.5">
+                <Pin size="20" />
+                <span>Pinned Post</span>
+              </div>
+            )}
+
+            {user.id === currentUser.id && (
+              <DeletePost user={user} post={post} />
+            )}
+          </div>
         </header>
         <Linkify>
           <div className="wrap-break-word hyphens-auto">{parsedContent}</div>
