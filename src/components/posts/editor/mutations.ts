@@ -35,7 +35,11 @@ export function useSubmitPostMutation() {
               pageParams: oldData.pageParams,
               pages: [
                 {
-                  posts: [newPost, ...firstPage.posts],
+                  posts: [
+                    firstPage.posts[0],
+                    newPost,
+                    ...firstPage.posts.slice(1),
+                  ],
                   nextCursor: firstPage.nextCursor,
                 },
                 ...oldData.pages.slice(1),

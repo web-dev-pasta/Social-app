@@ -21,7 +21,7 @@ export default async function Page({ params }: PageProps) {
     <main className="flex w-full min-w-0 gap-5">
       <div className="w-full min-w-0 space-y-5">
         <div className="bg-card rounded-2xl p-5 shadow-sm">
-          <h1 className="text-center text-2xl font-bold">#{slug}</h1>
+          <h1 className="mb-4 text-center text-2xl font-bold">#{slug}</h1>
           <HashtagSinglePage slug={slug} />
         </div>
       </div>
